@@ -16,5 +16,4 @@ module.exports = async function(deployer) {
     await deployer.deploy(MyCrowdsale, 1, addr[0], MyToken.address);
     let instance = await MyToken.deployed();
     await instance.sendTokens(MyCrowdsale.address, 1000000);
-    let balance = await instance.balanceOf(MyCrowdsale.address);
 }
