@@ -1,11 +1,12 @@
 /*
     The artifact object describe the contract addresses, the networks on which the
-    contracts have been deployed, and the functions the contracts have.
+    contracts have been previously deployed, and the functions the contracts have.
 */
 
 
 var MyToken = artifacts.require("MyToken");
 var MyCrowdsale = artifacts.require("MyCrowdsale");
+var MyKycContract = artifacts.require("KycContract");
 
 // Get predefined environnment (variables, etc)
 require("dotenv").config({path: "../.env"});
@@ -16,7 +17,10 @@ module.exports = async function(deployer) {
 
     // Deploy Contracts using the constructors
     await deployer.deploy(MyToken, process.env.INITIAL_TOKENS);
-    await deployer.deploy(MyCrowdsale, 1, addr[0], MyToken.address);
+    await deployer.deploy(MyKycContract);
+    await deployer.deploy(MyCrowdsale, 1, addr[0], MyToken.address, MyKycContract.address);
     let instance = await MyToken.deployed();
+    await console.log(instance);
+    // ERC20 function
     await instance.transfer(MyCrowdsale.address, process.env.INITIAL_TOKENS);
 }

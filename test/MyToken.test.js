@@ -1,5 +1,6 @@
 const { contracts_build_directory } = require("../truffle-config");
 
+//Token artifact found in the MyToken.json file
 const MyToken = artifacts.require("MyToken");
 
 const chai = require("./setupchai.js");
@@ -10,9 +11,12 @@ require("dotenv").config({path: "../.env"});
 
 contract("MyToken test", async accounts => {
 
+    // Define the accounts to test with, the first account is always used to deploye the
+    // smart contract
     const [deployerAccount, recipient] = accounts;
 
     beforeEach(async() => {
+        // Deploy a new version of this contract to the network (clean contract state)
         this.myToken = await MyToken.new(process.env.INITIAL_TOKENS);
     });
 
@@ -34,7 +38,7 @@ contract("MyToken test", async accounts => {
         let instance = await this.myToken;
         let totalSupply = await instance.totalSupply();
         await expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply);
-        await expect(instance.transfer(recipient, sendTokens)).to.eventually.be.a.fulfilled;
+        await expect(instance.transfer(recipient, sendTokens)).to.eventually.be.fulfilled;
         await expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply.sub(new BN(sendTokens)));
         await expect(instance.balanceOf(recipient)).to.eventually.be.a.bignumber.equal(new BN(sendTokens));
     });
