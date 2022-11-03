@@ -20,7 +20,7 @@ module.exports = async function(deployer) {
     await deployer.deploy(MyKycContract);
     await deployer.deploy(MyCrowdsale, 1, addr[0], MyToken.address, MyKycContract.address);
     let instance = await MyToken.deployed();
-    await console.log(instance);
+    // await console.log(instance);
     // ERC20 function
     await instance.transfer(MyCrowdsale.address, process.env.INITIAL_TOKENS);
 }

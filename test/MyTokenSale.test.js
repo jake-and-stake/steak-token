@@ -21,9 +21,9 @@ contract("MyCrowdsale test", async accounts => {
     it("all tokens should be in the TokenSale contract by default", async() => {
         let token = await MyToken.deployed();
         let totalSupply = await token.totalSupply();
-        // Access deployed smart contract address and get balance
-        let balanceOfTokenSaleSmartContract = await instance.balanceOf(TokenSale.address);
-        await expect(balanceOfTokenSaleSmartContract).to.eventually.be.a.bignumber.equal(totalSupply);
+        // Access ABI of deployed smart contract address and get balance
+        let balanceOfTokenSaleSmartContract = await token.balanceOf(MyCrowdsale.address);
+        await expect(balanceOfTokenSaleSmartContract).to.be.a.bignumber.equal(totalSupply);
     });
 
     it("should not be possible to buy tokens if not kyc'd", async () => {
@@ -33,4 +33,12 @@ contract("MyCrowdsale test", async accounts => {
             value: "1000000000000000000"
         })).to.eventually.be.rejected;
     });
+
+    // it("should be possible to buy tokens if not kyc", async () => {
+    //     let instance = await MyCrowdsale.deployed();
+    //     await expect(instance.sendTransaction({
+    //         from: deployerAccount,
+    //         value: "1000000000000000000"
+    //     })).to.eventually.be.rejected;
+    // });
 });
