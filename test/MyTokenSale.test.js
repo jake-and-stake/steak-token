@@ -2,6 +2,7 @@ const { contracts_build_directory } = require("../truffle-config");
 
 const MyToken = artifacts.require("MyToken");
 const MyCrowdsale = artifacts.require("MyCrowdsale");
+const KycContract = artifacts.require("KycContract");
 
 const chai = require("./setupchai.js");
 const BN = web3.utils.BN;
@@ -34,11 +35,19 @@ contract("MyCrowdsale test", async accounts => {
         })).to.eventually.be.rejected;
     });
 
-    // it("should be possible to buy tokens if not kyc", async () => {
-    //     let instance = await MyCrowdsale.deployed();
-    //     await expect(instance.sendTransaction({
-    //         from: deployerAccount,
-    //         value: "1000000000000000000"
-    //     })).to.eventually.be.rejected;
-    // });
+    it("should be possible to buy tokens if kyc'd", async () => {
+        let tokenInstance = await MyToken.deployed();
+        let tokenSaleInstance = await MyCrowdsale.deployed();
+        let kycInstance = await KycContract.deployed();
+
+        let balanceBefore = await tokenInstance.balanceOf(deployerAccount);
+        await kycInstance.setKycCompleted(deployerAccount, {from: deployerAccount});
+        
+        await expect(tokenSaleInstance.sendTransaction({
+            from: deployerAccount,
+            value: web3.utils.toWei("1", "wei")
+        })).to.be.fulfilled;
+        return await expect(tokenInstance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(balanceBefore.add(new BN(1)));
+    });
+
 });
