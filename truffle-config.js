@@ -1,4 +1,7 @@
 const path = require("path");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const Mnemonic = "";
+const AccountIndex = 0;
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -7,6 +10,12 @@ module.exports = {
   networks: {
     develop: {
       port: 8545
+    },
+    truffle_local: {
+      provider: function() {
+        return new HDWalletProvider(Mnemonic, "http://localhost:8545", AccountIndex);
+      },
+      network_id: 1337
     }
   },
   compilers: {
