@@ -11,12 +11,19 @@ module.exports = {
       port: 8545,
       network_id: 1337
     },
-    truffle_local: {
+    goerli_testnet: {
       provider: function() {
-        return new HDWalletProvider(Mnemonic, "http://localhost:8545", AccountIndex);
+        return new HDWalletProvider(Mnemonic, "https://goerli.infura.io/v3/d0209322abaf4ee988bcbdde4de9ce7a", AccountIndex);
       },
-      network_id: 1337
+      network_id: 5
+    },
+    ropsten_testnet: {
+      provider: function() {
+        return new HDWalletProvider(Mnemonic, "https://ropsten.infura.io/v3/d0209322abaf4ee988bcbdde4de9ce7a", AccountIndex);
+      },
+      network_id: 3
     }
+
   },
   compilers: {
     solc: {
