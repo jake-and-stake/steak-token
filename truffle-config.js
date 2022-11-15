@@ -1,6 +1,5 @@
 const path = require("path");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const Mnemonic = "";
 const AccountIndex = 0;
 
 module.exports = {
@@ -9,7 +8,8 @@ module.exports = {
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),
   networks: {
     develop: {
-      port: 8545
+      port: 8545,
+      network_id: 1337
     },
     truffle_local: {
       provider: function() {

@@ -19,4 +19,8 @@ contract MyToken is ERC20 {
         tokenBalance[msg.sender] -= _amount;
         tokenBalance[_to] += _amount;
     }
+
+    function decimals() public pure override returns (uint8) {
+		return 0;
+	}
 }
