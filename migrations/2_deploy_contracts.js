@@ -16,11 +16,15 @@ module.exports = async function(deployer) {
     let addr = await web3.eth.getAccounts();
 
     // Deploy Contracts using the constructors
-    await deployer.deploy(MyToken, process.env.INITIAL_TOKENS);
+    await deployer.deploy(MyToken);
     await deployer.deploy(MyKycContract);
     await deployer.deploy(MyCrowdsale, 1, addr[0], MyToken.address, MyKycContract.address);
     let instance = await MyToken.deployed();
     // await console.log(instance);
     // ERC20 function
-    await instance.transfer(MyCrowdsale.address, process.env.INITIAL_TOKENS);
+    // await instance.transfer(MyCrowdsale.address, process.env.INITIAL_TOKENS);
+    let minter_role = await instance.MINTER_ROLE();
+    await instance.grantRole(minter_role, MyCrowdsale.address, {from: addr[0]});
+    // let minters = await instance._roles[minter_role];
+    // console.log(minters);
 }

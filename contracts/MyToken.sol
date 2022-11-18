@@ -3,14 +3,13 @@
 pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./ERC20Mintable.sol";
 
-contract MyToken is ERC20 {
+contract MyToken is ERC20Mintable {
 
     mapping(address => uint) public tokenBalance;
 
-    constructor(uint256 initialSupply) ERC20("Steak Token", "STEAK") {
-        _mint(msg.sender, initialSupply);
-        tokenBalance[msg.sender] = initialSupply;
+    constructor() ERC20Mintable("Steak Token", "STEAK") {
     }
 
     function sendTokens(address _to, uint256 _amount) public {

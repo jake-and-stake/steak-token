@@ -7,7 +7,7 @@ import getWeb3 from "./getWeb3";
 import "./App.css";
 
 class App extends Component {
-  state = { loaded: false , kycAddress: "0x123...", tokenSaleAddress: null, userTokens: 0};
+  state = { loaded: false , kycAddress: "0x123...", tokenSaleAddress: null, userTokens: 0, totalSupply: 0 };
 
   componentDidMount = async () => {
     try {
@@ -39,7 +39,8 @@ class App extends Component {
       // example of interacting with the contract's methods.
       this.listenToTokenTransfer();
       var userTokens = await this.tokenInstance.methods.balanceOf(this.accounts[0]).call();
-      this.setState({ loaded: true, tokenSaleAddress: MyCrowdsale.networks[this.networkId].address, userTokens: userTokens });
+      var totalSupply = await this.tokenInstance.methods.totalSupply().call();
+      this.setState({ loaded: true, tokenSaleAddress: MyCrowdsale.networks[this.networkId].address, userTokens: userTokens, totalSupply: totalSupply });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -93,6 +94,8 @@ class App extends Component {
         <p>If you want to buy tokens, send Wei to this token address: {this.state.tokenSaleAddress}</p>
         <p>You currently have: {this.state.userTokens} STEAK tokens</p>
         <button type="button" onClick={this.handleBuyTokens}>Buy more tokens</button>
+
+        <h2>Current Total Supply: {this.state.totalSupply}</h2>
       </div>
     );
   }

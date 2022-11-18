@@ -17,7 +17,7 @@ contract("MyToken test", async accounts => {
 
     beforeEach(async() => {
         // Deploy a new version of this contract to the network (clean contract state)
-        this.myToken = await MyToken.new(process.env.INITIAL_TOKENS);
+        this.myToken = await MyToken.new();
     });
 
     it("should put 1000000 tokens in the first account", async () => {
