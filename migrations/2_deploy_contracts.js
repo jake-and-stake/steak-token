@@ -25,6 +25,4 @@ module.exports = async function(deployer) {
     // await instance.transfer(MyCrowdsale.address, process.env.INITIAL_TOKENS);
     let minter_role = await instance.MINTER_ROLE();
     await instance.grantRole(minter_role, MyCrowdsale.address, {from: addr[0]});
-    // let minters = await instance._roles[minter_role];
-    // console.log(minters);
 }

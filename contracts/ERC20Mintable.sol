@@ -22,7 +22,6 @@ contract ERC20Mintable is ERC20, AccessControl {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-
     function mint(address account, uint256 amount) public returns (bool) {
         require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a minter.");
         _mint(account, amount);
