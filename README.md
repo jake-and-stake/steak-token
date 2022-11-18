@@ -22,6 +22,9 @@ Testing:
 
 Create a `.env` file to store your seed phrase.
 
+## Contract Address
+- Goerli: 0x2e72cE48F4c1332d4fa58A068E51A4876EfA5E61
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
