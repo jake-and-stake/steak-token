@@ -1,5 +1,5 @@
 # STEAK Token
-Jake and Stake token. With react front end. Deployed using the 3rd account (0-indexed)
+Jake and Stake token. With react front end.
 
 # Installation
 Using

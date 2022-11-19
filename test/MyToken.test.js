@@ -36,6 +36,11 @@ contract("MyToken test", async accounts => {
     it("is possible to send tokens between accounts", async() => {
         const sendTokens = 1;
         let instance = await this.myToken;
+
+        let minter_role = await instance.MINTER_ROLE();
+        await instance.grantRole(minter_role, deployerAccount, {from: deployerAccount});
+        await expect(instance.mint(deployerAccount, 1)).to.eventually.be.fulfilled;
+        
         let totalSupply = await instance.totalSupply();
         await expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply);
         await expect(instance.transfer(recipient, sendTokens)).to.eventually.be.fulfilled;
